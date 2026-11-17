@@ -1,13 +1,13 @@
 # Robot Vision with an e-puck in Webots: Applied Robotics & AI Project, Part 2
 
-An e-puck robot places three coloured blocks and four objects for the CNN (a model airplane, a car, a truck and a horse: CIFAR-10 classes airplane, automobile, truck and horse) at random positions in a Webots arena. It finds the blocks with **HSV colour detection (OpenCV)**, reports every encounter with a summary and a saved camera image, measures the colours of each block image with **OpenCV** (mask → bitwise AND → mean RGB → histogram), and **plans a path to photograph each object** so the images can be classified by the CIFAR-10 CNN in the Colab notebook. Everything runs automatically. The run ends with a final report naming anything that was missed.
+An e-puck robot places three coloured blocks and four objects for the CNN (a model airplane, a bird, a truck and a horse: CIFAR-10 classes airplane, bird, truck and horse) at random positions in a Webots arena. It finds the blocks with **HSV colour detection (OpenCV)**, reports every encounter with a summary and a saved camera image, measures the colours of each block image with **OpenCV** (mask → bitwise AND → mean RGB → histogram), and **plans a path to photograph each object** so the images can be classified by the CIFAR-10 CNN in the Colab notebook. Everything runs automatically. The run ends with a final report naming anything that was missed.
 
 ## Files
 
 ```
 robot_vision_part2/
 ├── worlds/
-│   └── robot_vision.wbt                    # arena, 3 blocks, airplane, car, truck, horse, e-puck
+│   └── robot_vision.wbt                    # arena, 3 blocks, airplane, bird, truck, horse, e-puck
 ├── controllers/
 │   └── robot_vision_controller/
 │       ├── robot_vision_controller.py      # the controller (under 500 lines)
@@ -36,7 +36,7 @@ robot_vision_part2/
    * `I see red` on the first encounter of a block, `I see red again` on later ones, each followed by the OpenCV filter result (`OpenCV filter: 2850 red pixels (15 % of the image), mean R = 243, G = 34, B = 37`) and a summary; the camera image and the filtered image are saved;
    * `Object in view: airplane at 0.80 m - photo saved for the CNN`;
    * `Task complete` once all blocks are found and every object is photographed (in simulation tests: median 66 s), or `Time limit reached (300 s)` with a list of anything missed.
-4. The images are in `controllers/robot_vision_controller/images/`. Upload `NNN_airplane_photo.png`, `NNN_automobile_photo.png`, `NNN_truck_photo.png` and `NNN_horse_photo.png` (the square crop around each object) to section 8 of the CNN notebook; `NNN_<object>_view.png` is the full camera view, useful for the slides. **Copy the folder somewhere safe before the next run**: each run starts by emptying it.
+4. The images are in `controllers/robot_vision_controller/images/`. Upload `NNN_airplane_photo.png`, `NNN_bird_photo.png`, `NNN_truck_photo.png` and `NNN_horse_photo.png` (the square crop around each object) to section 8 of the CNN notebook; `NNN_<object>_view.png` is the full camera view, useful for the slides. **Copy the folder somewhere safe before the next run**: each run starts by emptying it.
 5. **Reset** and **Play** again for a new random layout, giving new object poses for more CNN test images.
 
 ## World setup
@@ -45,7 +45,8 @@ robot_vision_part2/
 |---|---|
 | Arena | `RectangleArena`, 2.5 m × 2.5 m (room for seven objects), walls 0.1 m high |
 | Blocks | `Solid` nodes `DEF RED_BLOCK`, `DEF GREEN_BLOCK`, `DEF BLUE_BLOCK`; box 0.3 × 0.3 × 0.1 m; `boundingObject` (detected by the proximity sensors) and `Physics` (mass 2 kg); matte `PBRAppearance` colours (1 0 0), (0 1 0), (0 0 1) |
-| CNN objects | Four CIFAR-10 classes. Vehicles were chosen because their real photos (smooth painted surfaces, simple shapes) look much more like 3D models than animal photos do; a dog, a cat and a horse in an earlier version were all classified as "airplane". `DEF OBJ_AIRPLANE`: a model airliner (white fuselage, grey wings and engines, tail fin, on a thin stand; 0.28 m long, 0.155 m high). `DEF OBJ_CAR`: a silver-white car (body, dark windows, roof, headlights, four wheels; 0.30 m long, 0.13 m high). `DEF OBJ_TRUCK`: a truck with an orange cab, a white cargo box and six wheels (0.34 m long, 0.165 m high). The three vehicles are built from basic shapes in the world file, because the Webots car and truck models are full-size robots that cannot be scaled down. `DEF OBJ_HORSE`: the Webots `Horse` (scale 0.1, about 0.17 m tall), coloured chestnut brown with a dark mane like most CIFAR-10 horses (the default is white). All face +x so side views can be planned. No colour on them is saturated enough, in a block's hue range, to be taken for a block. |
+| CNN objects | Four CIFAR-10 classes. `DEF OBJ_AIRPLANE`: a model airliner (white fuselage, grey wings and engines, tail fin, on a thin stand; 0.28 m long, 0.155 m high). `DEF OBJ_BIRD`: a robin-like bird perched on a branch (brown body, darker wings and tail, orange breast, yellow-orange beak, black eyes, thin legs; about 0.17 m high). `DEF OBJ_TRUCK`: a truck with an orange cab, a white cargo box and six wheels (0.34 m long, 0.165 m high). These three are built from basic shapes (boxes, cylinders, spheres, a cone, a capsule) in the world file, because Webots has no small airplane, bird or truck model. `DEF OBJ_HORSE`: the Webots `Horse` (scale 0.1, about 0.17 m tall), coloured chestnut brown with a dark mane like most CIFAR-10 horses (the default is white). All face +x so side views can be planned. Earlier versions used a dog, a cat and a white horse (all classified as "airplane") and then a shiny silver car (also classified as "airplane", because it reflected the blue sky); the objects that are recognised best are those whose real photos look most like simple 3D models. |
+
 
 | Random placement | At start-up the controller moves every object and block to a random position: 0.3 m from the walls, 0.6 m from the robot's start and 0.45 m from each other, so nothing overlaps (if there is not enough room, only the gap between objects is relaxed). The four CNN objects are placed first, each turned side-on to the centre, ±30°, so one side faces the open middle of the arena. Its **photo corridor** (the photo spot 0.8 m away on that side, and the halfway point) is then marked as taken, so no block or other object can be placed in the way of its side-view photo. In tests without this, a block standing in the corridor of an object in a corner made that photo impossible in about 1 run in 15. |
 | Robot | `E-puck` at the centre, `supervisor TRUE`, controller `robot_vision_controller`, camera 160 × 120 (`camera_width`, `camera_height`) |
@@ -89,7 +90,7 @@ The robot is a **Supervisor** for two reasons: to place the objects at random, a
 | Green | 50–70 | ≥ 190 | ≥ 50 |
 | Blue | 110–130 | ≥ 190 | ≥ 50 |
 
-  The ranges were set from colours measured in this world. Blocks render at H = 0 / 60 / 120 with S = 210–222, also on shaded faces (shade lowers V, not S). The brown floor has H 4–11 with S ≤ 167, and the walls, sky and trees have S < 160. Of the CNN objects, the white and grey vehicles, the dark windows and the brown horse are well below S = 190; the truck's orange cab is saturated, but its hue (H ≈ 17) is outside all three block ranges (red stops at H = 5). In tests the ranges detected every block pixel and gave no false detections on the floor, walls, sky or animals.
+  The ranges were set from colours measured in this world. Blocks render at H = 0 / 60 / 120 with S = 210–222, also on shaded faces (shade lowers V, not S). The brown floor has H 4–11 with S ≤ 167, and the walls, sky and trees have S < 160. Of the CNN objects, the white and grey airplane, the brown bird and horse and the truck's white box are well below S = 190; the truck's orange cab and the bird's beak are saturated, but their hues (H ≈ 17–19) are outside all three block ranges (red stops at H = 5). In tests the ranges detected every block pixel and gave no false detections on the floor, walls, sky or animals.
 * **Steering threshold:** a colour is followed once it covers 0.3 % of the image (57 pixels at 160 × 120), so the rule scales with the camera size.
 * **Encounter rule:** a block is *reached* when its colour fills 40 % of the centre window for 3 frames in a row. It counts *again* only after it has been out of view (< 5 %) for 2 s of searching.
 
@@ -141,7 +142,7 @@ The controller was tested before delivery with a 2D simulation of the e-puck (wh
 | T6 | Summary check | Counts and times match the messages | |
 | T7 | One block removed from the world | Warning at start; `not in this world` in the summary | |
 | T9 | OpenCV filter | Mean RGB close to the block colour (e.g. red: R high, G and B low); filtered image shows only the block | |
-| T8 | Object photos | One side-view photo each of the airplane, the car, the truck and the horse: whole object in the view, filling the square crop | |
+| T8 | Object photos | One side-view photo each of the airplane, the bird, the truck and the horse: whole object in the view, filling the square crop | |
 | T10 | Stuck check | No `Stuck` message after stops, turns or photos; `Stuck` only when pushing against something | |
 
 ## Troubleshooting

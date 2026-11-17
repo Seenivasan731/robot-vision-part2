@@ -2,7 +2,7 @@
 At the start the robot (a Supervisor) moves the three coloured blocks and four CNN objects to random places.
 It then finds each block by HSV colour detection, prints "I see <colour>" (or "... again") and a summary,
 saves the image and measures its colours (mean RGB, histograms in block_colours.csv). It also drives beside
-each object (airplane, car, truck, horse) and saves a side-view photo for the CIFAR-10 CNN in the Colab notebook."""
+each object (airplane, bird, truck, horse) and saves a side-view photo for the CIFAR-10 CNN in the Colab notebook."""
 import csv
 import glob
 import math
@@ -32,7 +32,7 @@ SCAN_SPEED = 0.5 * CRUISE         # wheel speed while scanning; one full turn ta
 SCAN_TIME = 2 * math.pi * AXLE / (2 * SCAN_SPEED * WHEEL_RADIUS)
 
 BLOCKS = {"red": "RED_BLOCK", "green": "GREEN_BLOCK", "blue": "BLUE_BLOCK"}
-OBJECTS = {"airplane": "OBJ_AIRPLANE", "automobile": "OBJ_CAR", "truck": "OBJ_TRUCK", "horse": "OBJ_HORSE"}  # CIFAR-10
+OBJECTS = {"airplane": "OBJ_AIRPLANE", "bird": "OBJ_BIRD", "truck": "OBJ_TRUCK", "horse": "OBJ_HORSE"}  # CIFAR-10
 COLOURS = tuple(BLOCKS)
 
 # HSV colour ranges for OpenCV (hue H 0-179, saturation S and brightness V 0-255), measured in this
