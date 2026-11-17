@@ -1,0 +1,84 @@
+#VRML_SIM R2023b utf8
+# Model airplane built from Webots shapes (CIFAR-10 class "airplane"): fuselage, wings and tail on a stand.
+
+PROTO ModelAirplane [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        "airplane"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      DEF STAND Pose {
+        translation 0 0 0.035
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.25 0.25 0.27 roughness 0.6 metalness 0 }
+            geometry Cylinder { height 0.07 radius 0.006 }
+          }
+        ]
+      }
+      DEF FUSELAGE Pose {
+        translation 0 0 0.09
+        rotation 0 1 0 1.5708
+        children [
+          Shape {
+            appearance DEF WHITE PBRAppearance { baseColor 0.92 0.93 0.95 roughness 0.4 metalness 0 }
+            geometry Capsule { height 0.24 radius 0.022 }
+          }
+        ]
+      }
+      DEF WINGS Pose {
+        translation 0.01 0 0.088
+        children [
+          Shape {
+            appearance DEF GREY PBRAppearance { baseColor 0.74 0.76 0.8 roughness 0.4 metalness 0 }
+            geometry Box { size 0.07 0.3 0.008 }
+          }
+        ]
+      }
+      DEF ENGINE_LEFT Pose {
+        translation 0.03 0.07 0.077
+        rotation 0 1 0 1.5708
+        children [
+          DEF ENGINE Shape {
+            appearance USE GREY
+            geometry Cylinder { height 0.04 radius 0.009 }
+          }
+        ]
+      }
+      DEF ENGINE_RIGHT Pose {
+        translation 0.03 -0.07 0.077
+        rotation 0 1 0 1.5708
+        children [ USE ENGINE ]
+      }
+      DEF TAIL_PLANE Pose {
+        translation -0.125 0 0.098
+        children [
+          Shape {
+            appearance USE GREY
+            geometry Box { size 0.045 0.11 0.006 }
+          }
+        ]
+      }
+      DEF TAIL_FIN Pose {
+        translation -0.128 0 0.125
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.35 0.38 0.45 roughness 0.4 metalness 0 }
+            geometry Box { size 0.05 0.006 0.06 }
+          }
+        ]
+      }
+    ]
+    boundingObject Pose {
+      translation 0 0 0.075
+      children [
+        Box { size 0.28 0.3 0.15 }
+      ]
+    }
+  }
+}

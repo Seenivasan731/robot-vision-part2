@@ -1,0 +1,94 @@
+#VRML_SIM R2023b utf8
+# Model truck built from Webots shapes (CIFAR-10 class "truck"): orange cab, white cargo box, six wheels.
+
+PROTO ModelTruck [
+  field SFVec3f    translation 0 0 0
+  field SFRotation rotation    0 0 1 0
+  field SFString   name        "truck"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      DEF CHASSIS Pose {
+        translation 0 0 0.032
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.2 0.2 0.22 roughness 0.7 metalness 0 }
+            geometry Box { size 0.34 0.11 0.02 }
+          }
+        ]
+      }
+      DEF CAB Pose {
+        translation 0.125 0 0.082
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.95 0.55 0.1 roughness 0.35 metalness 0 }
+            geometry Box { size 0.08 0.13 0.1 }
+          }
+        ]
+      }
+      DEF WINDSCREEN Pose {
+        translation 0.166 0 0.105
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.12 0.14 0.18 roughness 0.15 metalness 0 }
+            geometry Box { size 0.004 0.11 0.04 }
+          }
+        ]
+      }
+      DEF CARGO Pose {
+        translation -0.045 0 0.1
+        children [
+          Shape {
+            appearance PBRAppearance { baseColor 0.92 0.92 0.9 roughness 0.5 metalness 0 }
+            geometry Box { size 0.25 0.14 0.13 }
+          }
+        ]
+      }
+      DEF T_WHEEL_1L Pose {
+        translation 0.125 0.06 0.025
+        rotation 1 0 0 1.5708
+        children [
+          DEF T_WHEEL Shape {
+            appearance PBRAppearance { baseColor 0.06 0.06 0.06 roughness 0.8 metalness 0 }
+            geometry Cylinder { height 0.02 radius 0.025 }
+          }
+        ]
+      }
+      DEF T_WHEEL_1R Pose {
+        translation 0.125 -0.06 0.025
+        rotation 1 0 0 1.5708
+        children [ USE T_WHEEL ]
+      }
+      DEF T_WHEEL_2L Pose {
+        translation -0.02 0.06 0.025
+        rotation 1 0 0 1.5708
+        children [ USE T_WHEEL ]
+      }
+      DEF T_WHEEL_2R Pose {
+        translation -0.02 -0.06 0.025
+        rotation 1 0 0 1.5708
+        children [ USE T_WHEEL ]
+      }
+      DEF T_WHEEL_3L Pose {
+        translation -0.12 0.06 0.025
+        rotation 1 0 0 1.5708
+        children [ USE T_WHEEL ]
+      }
+      DEF T_WHEEL_3R Pose {
+        translation -0.12 -0.06 0.025
+        rotation 1 0 0 1.5708
+        children [ USE T_WHEEL ]
+      }
+    ]
+    boundingObject Pose {
+      translation 0 0 0.083
+      children [
+        Box { size 0.34 0.14 0.166 }
+      ]
+    }
+  }
+}

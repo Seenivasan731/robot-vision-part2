@@ -1,0 +1,33 @@
+#VRML_SIM R2023b utf8
+# Coloured block, 0.3 x 0.3 x 0.1 m, with physics (the robot pushes it if it drives into it).
+
+PROTO ColourBlock [
+  field SFVec3f    translation 0 0 0.05
+  field SFRotation rotation    0 0 1 0
+  field SFColor    color       1 0 0
+  field SFString   name        "block"
+]
+{
+  Solid {
+    translation IS translation
+    rotation IS rotation
+    name IS name
+    children [
+      Shape {
+        appearance PBRAppearance {
+          baseColor IS color
+          roughness 1
+          metalness 0
+        }
+        geometry DEF BLOCK_BOX Box {
+          size 0.3 0.3 0.1
+        }
+      }
+    ]
+    boundingObject USE BLOCK_BOX
+    physics Physics {
+      density -1
+      mass 2
+    }
+  }
+}

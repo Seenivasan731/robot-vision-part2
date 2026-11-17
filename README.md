@@ -18,6 +18,7 @@ robot-vision-part2/
     ├── README.md                   # detailed guide to the world and the controller
     ├── worlds/
     │   └── robot_vision.wbt        # arena, 3 colour blocks, airplane, bird, truck, horse, e-puck
+    ├── protos/                     # colour block and the hand-built airplane, bird and truck
     └── controllers/
         └── robot_vision_controller/
             └── robot_vision_controller.py
@@ -32,7 +33,7 @@ robot-vision-part2/
 | 3b | Optimiser comparison: SGD vs Adam from the same starting weights |
 | 4–6 | Improved CNN (VGG-style blocks, batch normalisation, dropout, data augmentation, early stopping): all layers, training, test accuracy, confusion matrix, error analysis |
 | 7 | Predictions on three of my own photos |
-| 8 | Predictions on images from the e-puck camera in Webots, with a background test |
+| 8 | Predictions on images from the e-puck camera in Webots |
 | 9 | Optimisation for running on a robot: TensorFlow Lite quantisation, pruning, speed per image |
 | 10–11 | Summary of results and download of all figures and models |
 
@@ -40,10 +41,21 @@ robot-vision-part2/
 
 ## Part 2: Webots simulation
 
-- **World:** a 2.5 m × 2.5 m arena with red, green and blue blocks (0.3 × 0.3 × 0.1 m) and four objects from CIFAR-10 classes: a model airplane, a bird and a truck built from basic shapes, and the Webots horse.
-- **Controller:** at the start the e-puck (a Supervisor) places all objects at random. It then finds each block by HSV colour detection, prints `I see <colour>` / `I see <colour> again` with a summary, checks the colours of each block image (mean RGB and histograms), and drives to a spot beside each object to save a side-view photo for the CNN. The run ends with a final report.
+- **World:** a 2.5 m × 2.5 m arena with red, green and blue blocks (0.3 × 0.3 × 0.1 m) and four objects from CIFAR-10 classes at fixed places: a model airplane, a bird and a truck built from basic shapes (PROTO files in `webots/protos/`), and the Webots horse.
+- **Controller:** at the start the e-puck (a Supervisor) places the three blocks at random. It then finds each block by HSV colour detection, prints `I see <colour>` / `I see <colour> again` with a summary, checks the colours of each block image (mean RGB and histograms), and drives to a spot beside each object to save a side-view photo for the CNN. The run ends with a final report.
 
 **To run:** install Python packages `numpy` and `opencv-python` for the Python used by Webots R2023b, open `webots/worlds/robot_vision.wbt`, press Reset and Play. See [`webots/README.md`](webots/README.md) for the details, settings and tests.
+
+## Results (final Colab run)
+
+| Result | Value |
+|---|---|
+| Baseline CNN (TensorFlow tutorial) | 67.42 % test accuracy |
+| Improved CNN (30 layers, 306,154 parameters) | 86.13 % test accuracy (+18.71 points) |
+| SGD vs Adam (baseline, 10 epochs) | 60.03 % vs 67.46 % |
+| My three photos | 3 of 3 correct |
+| e-puck camera photos | 3 of 4 correct (the truck was classified as an airplane) |
+| Speed per image, one CPU core | Keras 32.25 ms → TensorFlow Lite int8 1.03 ms |
 
 ## Tools
 

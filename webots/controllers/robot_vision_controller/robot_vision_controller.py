@@ -1,5 +1,5 @@
 """E-puck robot vision controller (Webots R2023b) - Applied Robotics & AI Project, Part 2.
-At the start the robot (a Supervisor) moves the three coloured blocks and four CNN objects to random places.
+At the start the robot (a Supervisor) moves the three coloured blocks to random places (the CNN objects stay put).
 It then finds each block by HSV colour detection, prints "I see <colour>" (or "... again") and a summary,
 saves the image and measures its colours (mean RGB, histograms in block_colours.csv). It also drives beside
 each object (airplane, bird, truck, horse) and saves a side-view photo for the CIFAR-10 CNN in the Colab notebook."""
@@ -132,7 +132,7 @@ def spin(direction):                          # turn on the spot: +1 = left, -1 
     set_speed(-direction * CRUISE, direction * CRUISE)
 
 
-# ------------------------------ World setup: random positions ------------------------------
+# ------------------------------ World setup: random block positions ------------------------------
 def free_spot(taken, start):
     """Random (x, y): 0.3 m from walls, 0.6 m from the start, 0.45 m (or less) from objects."""
     lim = ARENA_HALF - 0.3
@@ -145,24 +145,26 @@ def free_spot(taken, start):
     return None
 
 
-def place_objects():
-    """Place the CNN objects, then the blocks, at random free positions, keeping each photo corridor free."""
+def place_blocks():
+    """The CNN objects stay where they are in the world (side-on to the centre). Only the blocks are placed
+    at random free positions, away from the objects and from the way to each object's photo spot."""
     start, taken = me.getPosition()[:2], []
-    for name, def_name in list(OBJECTS.items()) + list(BLOCKS.items()):
+    for name in present_objects:
+        x, y = robot.getFromDef(OBJECTS[name]).getField('translation').getSFVec3f()[:2]
+        towards = math.atan2(-y, -x)          # the photo spots are on the side facing the centre
+        taken += [(x, y)] + [(x + d * math.cos(towards), y + d * math.sin(towards)) for d in (0.4, 0.8)]
+    for name, def_name in BLOCKS.items():
         node = robot.getFromDef(def_name)
         spot = free_spot(taken, start) if node else None
         if spot is None:
-            display_message("Warning: %s skipped (%s)" % (name, "no room" if node else "DEF %s missing" % def_name))
+            reason = "no room" if node else "DEF %s missing" % def_name
+            display_message("Warning: %s block skipped (%s)" % (name, reason))
             continue
         x, y = spot
         node.getField('translation').setSFVec3f([x, y, node.getField('translation').getSFVec3f()[2]])  # same height
-        if name in OBJECTS:   # side-on to the centre (+/- 30 deg); its photo spot and the way to it stay free
-            towards = math.atan2(-y, -x) + random.uniform(-0.52, 0.52)
-            node.getField('rotation').setSFRotation([0, 0, 1, towards + random.choice((-1, 1)) * math.pi / 2])
-            taken += [(x + d * math.cos(towards), y + d * math.sin(towards)) for d in (0.4, 0.8)]
         node.resetPhysics()                   # blocks have physics: start them at rest
         taken.append((x, y))
-        display_message("%-5s placed at x = %5.2f, y = %5.2f" % (name, x, y))
+        display_message("%-5s block placed at x = %5.2f, y = %5.2f" % (name, x, y))
 
 
 # ------------------------------ Vision: HSV colour detection (OpenCV) ------------------------------
@@ -277,8 +279,8 @@ def report_block(colour, now):
 def final_report(now, complete):
     """End of the run: say what was done and name anything that was missed."""
     display_message("Task complete" if complete else "Time limit reached (%.0f s)" % TIME_LIMIT)
-    missed = (["%s block (check DEF %s, HSV range)" % (c, BLOCKS[c]) for c in COLOURS if blocks[c]["count"] == 0] +
-              ["%s photo (view blocked or not reached)" % a for a in present_objects if a not in photographed])
+    missed = ["%s block (check DEF %s, HSV range)" % (c, BLOCKS[c]) for c in present_blocks if not blocks[c]["count"]]
+    missed += ["%s photo (view blocked or not reached)" % a for a in present_objects if a not in photographed]
     if missed:
         display_message("Missed: " + "; ".join(missed))
     print_summary(now)
@@ -390,7 +392,7 @@ def main():
         display_message("OpenCV is not installed - run: python -m pip install opencv-python numpy")
         return
     start_image_folder()
-    place_objects()
+    place_blocks()
     display_message("Searching for the blocks and photographing the objects...")
     state, until, turn_start = "SCAN", SCAN_TIME, -TIME_DELAY      # start by looking around
     next_scan = SCAN_TIME + random.uniform(*SCAN_EVERY)
