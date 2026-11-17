@@ -1,0 +1,21 @@
+# Images and colour log written by the Webots controller at every run
+webots/controllers/robot_vision_controller/images/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Webots project files created when a world is opened
+webots/worlds/.*.wbproj
+webots/worlds/.*.jpg
+
+# Colab downloads and trained models (kept in Google Drive, too large for Git)
+*.keras
+*.h5
+*.tflite
+assignment3_outputs.zip
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
