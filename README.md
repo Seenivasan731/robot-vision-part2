@@ -1,4 +1,4 @@
-# Robot Vision with a CNN and an e-puck in Webots
+# CNN Object Recognition for an e-puck Robot in Webots
 
 Applied Robotics & AI, Project Part 2 (Assignments 3, 4 and 5).
 
