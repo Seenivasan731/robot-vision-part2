@@ -12,6 +12,9 @@ The project has two parts that work together:
 ```
 robot-vision-part2/
 ├── README.md                       # this file
+├── docs/
+│   ├── A3_Presentation_CNN_Object_Recognition.pdf   # slides presented on 18 Nov
+│   └── A4_Report_CNN_Object_Recognition.pdf         # final report
 ├── colab/
 │   └── CIFAR10_CNN_Part2.ipynb     # CNN notebook (run in Google Colab)
 └── webots/
@@ -56,6 +59,11 @@ robot-vision-part2/
 | My three photos | 3 of 3 correct |
 | e-puck camera photos | 3 of 4 correct (the truck was classified as an airplane) |
 | Speed per image, one CPU core | Keras 32.25 ms → TensorFlow Lite int8 1.03 ms |
+
+## Documents
+
+- [A3 presentation (PDF)](docs/A3_Presentation_CNN_Object_Recognition.pdf)
+- [A4 final report (PDF)](docs/A4_Report_CNN_Object_Recognition.pdf)
 
 ## Tools
 
