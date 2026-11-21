@@ -1,0 +1,1 @@
+Put the three photos used in notebook section 7 here: Cnn_plane.jpg, Cnn_bird.jpeg and Cnn_car.jpeg.

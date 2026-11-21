@@ -1,0 +1,339 @@
+{
+  "baseline_test_accuracy": 67.42,
+  "baseline_params": 122570,
+  "baseline_train_time_min": 1.3,
+  "baseline_final_train_acc": 78.19,
+  "baseline_final_val_acc": 66.6,
+  "optimiser_comparison": [
+    {
+      "Optimiser": "SGD",
+      "Final train acc (%)": 64.68,
+      "Final val acc (%)": 60.28,
+      "Best val acc (%)": 60.28,
+      "Best epoch": 10,
+      "Test acc (%)": 60.03,
+      "Train time (min)": 1.1
+    },
+    {
+      "Optimiser": "Adam",
+      "Final train acc (%)": 77.57,
+      "Final val acc (%)": 67.24,
+      "Best val acc (%)": 67.38,
+      "Best epoch": 9,
+      "Test acc (%)": 67.46,
+      "Train time (min)": 1.1
+    }
+  ],
+  "own_image_predictions": [
+    {
+      "image": "Cnn_plane.jpg",
+      "prediction": "airplane",
+      "confidence_%": 87.9,
+      "top3": [
+        [
+          "airplane",
+          87.9
+        ],
+        [
+          "ship",
+          12.0
+        ],
+        [
+          "automobile",
+          0.0
+        ]
+      ]
+    },
+    {
+      "image": "Cnn_bird.jpeg",
+      "prediction": "bird",
+      "confidence_%": 98.5,
+      "top3": [
+        [
+          "bird",
+          98.5
+        ],
+        [
+          "airplane",
+          0.5
+        ],
+        [
+          "cat",
+          0.3
+        ]
+      ]
+    },
+    {
+      "image": "Cnn_car.jpeg",
+      "prediction": "automobile",
+      "confidence_%": 99.3,
+      "top3": [
+        [
+          "automobile",
+          99.3
+        ],
+        [
+          "truck",
+          0.7
+        ],
+        [
+          "ship",
+          0.0
+        ]
+      ]
+    }
+  ],
+  "webots_predictions": [
+    {
+      "image": "008_horse_photo (4).png",
+      "prediction": "horse",
+      "confidence_%": 91.8,
+      "top3": [
+        [
+          "horse",
+          91.8
+        ],
+        [
+          "deer",
+          3.6
+        ],
+        [
+          "bird",
+          2.6
+        ]
+      ]
+    },
+    {
+      "image": "010_truck_photo (4).png",
+      "prediction": "airplane",
+      "confidence_%": 94.1,
+      "top3": [
+        [
+          "airplane",
+          94.1
+        ],
+        [
+          "truck",
+          5.8
+        ],
+        [
+          "ship",
+          0.2
+        ]
+      ]
+    },
+    {
+      "image": "012_bird_photo (4).png",
+      "prediction": "bird",
+      "confidence_%": 88.8,
+      "top3": [
+        [
+          "bird",
+          88.8
+        ],
+        [
+          "airplane",
+          10.9
+        ],
+        [
+          "deer",
+          0.2
+        ]
+      ]
+    },
+    {
+      "image": "016_airplane_photo (5).png",
+      "prediction": "airplane",
+      "confidence_%": 95.3,
+      "top3": [
+        [
+          "airplane",
+          95.3
+        ],
+        [
+          "ship",
+          4.3
+        ],
+        [
+          "bird",
+          0.3
+        ]
+      ]
+    }
+  ],
+  "total_params": 306154,
+  "num_layers": 30,
+  "train_time_min": 5.8,
+  "epochs_run": 45,
+  "test_accuracy": 86.13,
+  "test_loss": 0.4812,
+  "best_val_accuracy": 86.36,
+  "train_accuracy_final": 85.49,
+  "top_confusions": [
+    "cat -> dog (138)",
+    "dog -> cat (89)",
+    "bird -> frog (65)",
+    "deer -> frog (50)",
+    "airplane -> ship (49)"
+  ],
+  "per_class_accuracy": {
+    "airplane": 87.0,
+    "automobile": 94.4,
+    "bird": 76.4,
+    "cat": 68.0,
+    "deer": 85.2,
+    "dog": 81.1,
+    "frog": 93.6,
+    "horse": 88.0,
+    "ship": 93.5,
+    "truck": 94.1
+  },
+  "improvement_pts": 18.71,
+  "optimisation_table": [
+    {
+      "Variant": "Keras float32 (baseline)",
+      "Size (KB)": 3700.41,
+      "Accuracy (%)": 86.13,
+      "Latency (ms)": 32.25,
+      "Max FPS (1 core)": 31.01
+    },
+    {
+      "Variant": "TFLite float32",
+      "Size (KB)": 1197.45,
+      "Accuracy (%)": 86.13,
+      "Latency (ms)": 1.41,
+      "Max FPS (1 core)": 708.16
+    },
+    {
+      "Variant": "TFLite float16",
+      "Size (KB)": 605.28,
+      "Accuracy (%)": 86.13,
+      "Latency (ms)": 1.41,
+      "Max FPS (1 core)": 710.58
+    },
+    {
+      "Variant": "TFLite dynamic-range int8",
+      "Size (KB)": 315.4,
+      "Accuracy (%)": 86.11,
+      "Latency (ms)": 1.03,
+      "Max FPS (1 core)": 968.37
+    },
+    {
+      "Variant": "TFLite full-integer int8",
+      "Size (KB)": 321.08,
+      "Accuracy (%)": 86.21,
+      "Latency (ms)": 1.84,
+      "Max FPS (1 core)": 542.7
+    }
+  ],
+  "pruning_table": [
+    {
+      "Sparsity (%)": 0,
+      "Accuracy (%)": 86.13,
+      "Compressed size (KB)": 1110.3
+    },
+    {
+      "Sparsity (%)": 30,
+      "Accuracy (%)": 69.26,
+      "Compressed size (KB)": 846.0
+    },
+    {
+      "Sparsity (%)": 50,
+      "Accuracy (%)": 32.55,
+      "Compressed size (KB)": 636.9
+    },
+    {
+      "Sparsity (%)": 70,
+      "Accuracy (%)": 13.43,
+      "Compressed size (KB)": 410.2
+    },
+    {
+      "Sparsity (%)": 80,
+      "Accuracy (%)": 9.99,
+      "Compressed size (KB)": 289.5
+    },
+    {
+      "Sparsity (%)": 90,
+      "Accuracy (%)": 10.0,
+      "Compressed size (KB)": 158.9
+    }
+  ],
+  "scheduling_table": [
+    {
+      "Run CNN every N steps": 1,
+      "Model": "Keras fp32",
+      "Avg ms per step": 32.25,
+      "% of 32 ms step": 100.78
+    },
+    {
+      "Run CNN every N steps": 1,
+      "Model": "Best TFLite",
+      "Avg ms per step": 1.03,
+      "% of 32 ms step": 3.22
+    },
+    {
+      "Run CNN every N steps": 2,
+      "Model": "Keras fp32",
+      "Avg ms per step": 16.12,
+      "% of 32 ms step": 50.39
+    },
+    {
+      "Run CNN every N steps": 2,
+      "Model": "Best TFLite",
+      "Avg ms per step": 0.52,
+      "% of 32 ms step": 1.61
+    },
+    {
+      "Run CNN every N steps": 5,
+      "Model": "Keras fp32",
+      "Avg ms per step": 6.45,
+      "% of 32 ms step": 20.16
+    },
+    {
+      "Run CNN every N steps": 5,
+      "Model": "Best TFLite",
+      "Avg ms per step": 0.21,
+      "% of 32 ms step": 0.64
+    },
+    {
+      "Run CNN every N steps": 10,
+      "Model": "Keras fp32",
+      "Avg ms per step": 3.22,
+      "% of 32 ms step": 10.08
+    },
+    {
+      "Run CNN every N steps": 10,
+      "Model": "Best TFLite",
+      "Avg ms per step": 0.1,
+      "% of 32 ms step": 0.32
+    },
+    {
+      "Run CNN every N steps": 20,
+      "Model": "Keras fp32",
+      "Avg ms per step": 1.61,
+      "% of 32 ms step": 5.04
+    },
+    {
+      "Run CNN every N steps": 20,
+      "Model": "Best TFLite",
+      "Avg ms per step": 0.05,
+      "% of 32 ms step": 0.16
+    }
+  ],
+  "summary": [
+    "Baseline CNN: test accuracy 67.42%, 122,570 parameters.",
+    "Baseline CNN with SGD: test accuracy 60.03%, best validation accuracy 60.28% at epoch 10.",
+    "Baseline CNN with Adam: test accuracy 67.46%, best validation accuracy 67.38% at epoch 9.",
+    "Improved CNN: test accuracy 86.13%, 306,154 parameters, +18.71 percentage points compared with the baseline.",
+    "Hardest classes: cat (68.0%), bird (76.4%); easiest classes: automobile (94.4%), truck (94.1%).",
+    "Most common mistakes (true -> predicted): cat -> dog (138); dog -> cat (89); bird -> frog (65).",
+    "My own images: Cnn_plane.jpg -> airplane (87.9%).",
+    "My own images: Cnn_bird.jpeg -> bird (98.5%).",
+    "My own images: Cnn_car.jpeg -> automobile (99.3%).",
+    "Webots camera image: 008_horse_photo (4).png -> horse (91.8%).",
+    "Webots camera image: 010_truck_photo (4).png -> airplane (94.1%).",
+    "Webots camera image: 012_bird_photo (4).png -> bird (88.8%).",
+    "Webots camera image: 016_airplane_photo (5).png -> airplane (95.3%).",
+    "Optimisation: TFLite dynamic-range int8 is 11.7x smaller (315 KB vs 3700 KB) and takes 1.03 ms per image vs 32.25 ms for Keras on one CPU core, with 86.11% accuracy."
+  ]
+}
