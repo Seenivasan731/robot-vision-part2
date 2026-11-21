@@ -135,20 +135,20 @@ The obstacle avoidance and camera handling follow the module's example code `ope
 
 ## Tests
 
-The controller was tested before delivery with a 2D simulation of the e-puck (wheel kinematics, camera image of the blocks, proximity sensors, walls) over **190 random block layouts** with the objects at their fixed places: every run found all three blocks, photographed all four objects and ended with `Task complete` (median 59 s, maximum 91 s, with the 160 × 120 camera; all object photos were side views between 71° and 110°, median 90°, taken 0.67–0.92 m away). No stuck messages (an earlier stuck check gave 357 false ones in 95 runs while turning). Edge cases were also checked: a block or CNN object missing from the world, the time-limit report, "again" messages, a block hiding an object, and OpenCV not installed. Results to record in Webots:
+The controller was tested before delivery with a 2D simulation of the e-puck (wheel kinematics, camera image of the blocks, proximity sensors, walls) over **190 random block layouts** with the objects at their fixed places: every run found all three blocks, photographed all four objects and ended with `Task complete` (median 59 s, maximum 91 s, with the 160 × 120 camera; all object photos were side views between 71° and 110°, median 90°, taken 0.67–0.92 m away). No stuck messages (an earlier stuck check gave 357 false ones in 95 runs while turning). Edge cases were also checked: a block or CNN object missing from the world, the time-limit report, "again" messages, a block hiding an object, and OpenCV not installed. Results in Webots (final run 17 Nov; other tests 21 Nov):
 
 | ID | Test | Expected result | Result |
 |---|---|---|---|
-| T1 | No block in view | No colour message | |
+| T1 | No block in view | No colour message | Pass: no colour message (21 Nov) |
 | T2 | One block reached | `I see <colour>` once + summary + image | Pass: `I see blue`, summary and images (final run, 17 Nov) |
-| T3 | Same block reached again | `I see <colour> again` + summary | |
-| T4 | Full run, 5 random block layouts | `Task complete`; record the time | |
-| T5 | Light changed (`TexturedBackgroundLight` luminosity 0.5 and 1.5) | Blocks still found, no false messages | |
-| T6 | Summary check | Counts and times match the messages | |
-| T7 | One block removed from the world | Warning at start; `not in this world` in the summary | |
+| T3 | Same block reached again | `I see <colour> again` + summary | Pass: `I see <colour> again` and a summary (21 Nov) |
+| T4 | Full run, 5 random block layouts | `Task complete`; record the time | Pass: `Task complete` in all 5 layouts (21 Nov) |
+| T5 | Light changed (`TexturedBackgroundLight` luminosity 0.5 and 1.5) | Blocks still found, no false messages | Pass: blocks found at 0.5 and 1.5, no false messages (21 Nov) |
+| T6 | Summary check | Counts and times match the messages | Pass: counts and times match the messages (21 Nov) |
+| T7 | One block removed from the world | Warning at start; `not in this world` in the summary | Pass: warning at start, `not in this world` in the summary (21 Nov) |
 | T8 | Object photos | One side-view photo each of the airplane, the bird, the truck and the horse: whole object in the view, filling the square crop | Pass: all four `_photo.png` saved (final run, 17 Nov) |
 | T9 | OpenCV filter | Mean RGB close to the block colour (e.g. red: R high, G and B low); filtered image shows only the block | Pass: blue block, 2,764 pixels, mean RGB (25, 25, 196) |
-| T10 | Stuck check | No `Stuck` message after stops, turns or photos; `Stuck` only when pushing against something | |
+| T10 | Stuck check | No `Stuck` message after stops, turns or photos; `Stuck` only when pushing against something | Pass: no `Stuck` message (21 Nov) |
 
 ## Troubleshooting
 
