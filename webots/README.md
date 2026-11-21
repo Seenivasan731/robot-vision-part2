@@ -140,14 +140,14 @@ The controller was tested before delivery with a 2D simulation of the e-puck (wh
 | ID | Test | Expected result | Result |
 |---|---|---|---|
 | T1 | No block in view | No colour message | |
-| T2 | One block reached | `I see <colour>` once + summary + image | |
+| T2 | One block reached | `I see <colour>` once + summary + image | Pass: `I see blue`, summary and images (final run, 17 Nov) |
 | T3 | Same block reached again | `I see <colour> again` + summary | |
 | T4 | Full run, 5 random block layouts | `Task complete`; record the time | |
 | T5 | Light changed (`TexturedBackgroundLight` luminosity 0.5 and 1.5) | Blocks still found, no false messages | |
 | T6 | Summary check | Counts and times match the messages | |
 | T7 | One block removed from the world | Warning at start; `not in this world` in the summary | |
-| T8 | Object photos | One side-view photo each of the airplane, the bird, the truck and the horse: whole object in the view, filling the square crop | |
-| T9 | OpenCV filter | Mean RGB close to the block colour (e.g. red: R high, G and B low); filtered image shows only the block | |
+| T8 | Object photos | One side-view photo each of the airplane, the bird, the truck and the horse: whole object in the view, filling the square crop | Pass: all four `_photo.png` saved (final run, 17 Nov) |
+| T9 | OpenCV filter | Mean RGB close to the block colour (e.g. red: R high, G and B low); filtered image shows only the block | Pass: blue block, 2,764 pixels, mean RGB (25, 25, 196) |
 | T10 | Stuck check | No `Stuck` message after stops, turns or photos; `Stuck` only when pushing against something | |
 
 ## Troubleshooting
